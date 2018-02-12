@@ -1,10 +1,15 @@
 pipeline{
   agent any 
   stages{
-    stage('Hello world'){
+    stage('check out'){
       steps{
-        bat 'echo Hellow world'
+        git https://github.com/Steephanjeyaraj/HelloWorld.git
         }
+    }
+    stage('taurus execution'){
+      steps{
+        bzt Google.yml
+      }
     }
   }
 }
