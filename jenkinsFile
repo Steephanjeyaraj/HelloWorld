@@ -3,7 +3,7 @@ pipeline{
   stages{
     stage('check out'){
       steps{
-        git https://github.com/Steephanjeyaraj/HelloWorld.git
+        git 'https://github.com/Steephanjeyaraj/HelloWorld.git'
         }
     }
     stage('taurus execution'){
