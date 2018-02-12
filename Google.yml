@@ -1,0 +1,23 @@
+execution:
+- concurrency: 10
+  scenario: Google
+  
+scenarios:
+  Google:
+	script: Google.jmx
+
+reporting:
+- module: final-stats
+
+modules:
+  jmeter:
+    path: F:/Softwares/apache-jmeter-3.2/apache-jmeter-3.2/bin/jmeter.bat
+    properties:
+        log_level: ERROR
+  console:
+    disable: true
+    
+settings:
+  default-executor: jmeter
+
+provisioning: local
