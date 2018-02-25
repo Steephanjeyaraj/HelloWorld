@@ -19,6 +19,7 @@ modules:
     disable: true
     
 settings:
+  artifacts-dir: C:\Users\steephan\Desktop\BlazeMeter\jenkiks-${JOB_NAME}-${BUILD_NUMBER}
   default-executor: jmeter
 
 provisioning: local
