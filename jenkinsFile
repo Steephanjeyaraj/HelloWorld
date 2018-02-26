@@ -8,7 +8,7 @@ pipeline{
     }
     stage('taurus execution'){
       steps{
-        bzt 'Google.yml -o settings.artifacts-dir="C:\Users\steephan\Desktop\BlazeMeter\jenkiks-${JOB_NAME}-${BUILD_NUMBER}"'
+        bzt 'Google.yml -o settings.artifacts-dir="C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}"'
       }
     }
   }
