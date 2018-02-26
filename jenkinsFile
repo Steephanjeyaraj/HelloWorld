@@ -13,8 +13,10 @@ pipeline{
     }
     stage('Result Collation'){
       steps{
-        bat 'java -jar TaurusOutputConverter.jar %1 %2' "C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\kpi.jtl" "C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\jmeterOutput.jtl"
-        bat 'jmeter.bat -g %1 -o %2' "C:\\Users\\steephan\\Desktop\\Blazemeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\jmeterOutput.jtl" "C:\\Users\\steephan\\Desktop\\Blazemeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\JmeterReport"
+        dir('C:\\Users\\steephan\\Desktop\\Blazemeter\\jenkine-${JOB_NAME}-${BUILD_NUMBER}') {
+                bat 'java -jar TaurusOutputConverter.jar kpi.jtl jmeterOutput.jtl'
+                bat 'jmeter.bat -g jmeterOutput.jtl -o .\\JmeterReport"
+         }
       }
     }
   }
