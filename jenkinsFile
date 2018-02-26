@@ -15,7 +15,7 @@ pipeline{
       steps{
         dir('C:\\Users\\steephan\\Desktop\\Blazemeter\\jenkine-${JOB_NAME}-${BUILD_NUMBER}') {
                 bat 'java -jar TaurusOutputConverter.jar kpi.jtl jmeterOutput.jtl'
-                bat 'jmeter.bat -g jmeterOutput.jtl -o JmeterReport"
+                bat 'jmeter.bat -g jmeterOutput.jtl -o JmeterReport'
          }
       }
     }
