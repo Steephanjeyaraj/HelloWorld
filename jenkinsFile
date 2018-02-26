@@ -12,12 +12,14 @@ pipeline{
       }
     }
     stage('Result Collation'){
-      def command = "java -jar TaurusOutputConverter.jar C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\kpi.jtl C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\jmeterOutput.jtl"
-      def process = command.execute()
-      process.waitFor()
-      def output = process.in.text
-      log.info output
-      bat 'jmeter.bat -g C:\\Users\\steephan\\Desktop\\Blazemeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\jmeterOutput.jtl -o C:\\Users\\steephan\\Desktop\\Blazemeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\JmeterReport'
+      steps{
+        def command = "java -jar TaurusOutputConverter.jar C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\kpi.jtl C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\jmeterOutput.jtl"
+        def process = command.execute()
+        process.waitFor()
+        def output = process.in.text
+        log.info output
+        bat 'jmeter.bat -g C:\\Users\\steephan\\Desktop\\Blazemeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\jmeterOutput.jtl -o C:\\Users\\steephan\\Desktop\\Blazemeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\JmeterReport'
+      }
     }
   }
 }
