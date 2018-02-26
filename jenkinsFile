@@ -12,7 +12,7 @@ pipeline{
       }
     }
     stage('Result Collation'){
-      def command = "java -jar TaurusOutputConverter.jar C:\Users\steephan\Desktop\BlazeMeter\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\kpi.jtl C:\Users\steephan\Desktop\BlazeMeter\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\jmeterOutput.jtl"
+      def command = "java -jar TaurusOutputConverter.jar C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\kpi.jtl C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\jmeterOutput.jtl"
       def process = command.execute()
       process.waitFor()
       def output = process.in.text
