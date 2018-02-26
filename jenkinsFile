@@ -11,5 +11,9 @@ pipeline{
         bzt 'Google.yml -o settings.artifacts-dir="C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}"'
       }
     }
+    stage('Result Collation'){
+      java -jar TaurusOutputConverter.jar "C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\kpi.jtl" "C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\jmeterOutput.jtl"
+      jmeter -g "C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\jmeterOutput.jtl" -o "C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}\\Test-report"
+    }
   }
 }
