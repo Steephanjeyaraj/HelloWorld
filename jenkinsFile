@@ -13,10 +13,9 @@ pipeline{
     }
     stage('Result Collation'){
       steps{
-        dir('C:\\Users\\steephan\\Desktop\\Blazemeter\\jenkine-${JOB_NAME}-${BUILD_NUMBER}') {
-                bat 'java -jar TaurusOutputConverter.jar kpi.jtl jmeterOutput.jtl'
-                bat 'jmeter.bat -g jmeterOutput.jtl -o JmeterReport'
-         }
+        bat 'cd C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-%JOB_NAME%-%BUILD_NUMBER%'
+        bat 'java -jar TaurusOutputConverter.jar C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-%JOB_NAME%-%BUILD_NUMBER%\\kpi.jtl C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-%JOB_NAME%-%BUILD_NUMBER%\\jmeterOutput.jtl'
+        bat 'jmeter.bat -g C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-%JOB_NAME%-%BUILD_NUMBER%\\jmeterOutput.jtl -o JmeterReport'
       }
     }
   }
