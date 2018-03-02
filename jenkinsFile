@@ -20,7 +20,7 @@ pipeline{
     }
     stage('Email report'){
       steps{
-        emailext attachmentsPattern: 'C://Users//steephan//Desktop//BlazeMeter//jenkiks-%JOB_NAME%-%BUILD_NUMBER%//JmeterReport//index.html', body: 'JmeterReport', subject: 'JmeterReport', to: 'steephanjeyaraj@gmail.com'
+        emailext attachmentsPattern: 'C:\\Users\\steephan\\Desktop\\BlazeMeter\\jenkiks-%JOB_NAME%-%BUILD_NUMBER%\\JmeterReport\\index.html', body: 'JmeterReport', subject: 'JmeterReport', to: 'steephanjeyaraj@gmail.com'
       }
     }
   }
