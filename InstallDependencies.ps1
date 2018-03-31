@@ -26,7 +26,7 @@ function unzip(){
 function setEnvironmentalVariable(){
 [Environment]::SetEnvironmentVariable("PATH", $env:Path + ";$JMeterPath", 'Machine')
 }
-}
+
 
 
 $JMeterSourceUrl=getProperty("JMeterSourceURL").Replace('"','')
