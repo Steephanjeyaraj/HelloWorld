@@ -22,17 +22,17 @@ Write-Host "Downloading" $Path -ForegroundColor Green
 function unzip(){
  #[System.IO.Compression.ZipFile]::ExtractToDirectory($JMeterZipFile,$destinationPath)
  Add-Type -A 'System.IO.Compression.FileSystem'; 
-[IO.Compression.ZipFile]::ExtractToDirectory($JMeterZipFile,$destinationPath);
+[IO.Compression.ZipFile]::ExtractToDirectory($JMeterZipFile, "C:\");
 }
 
 function setEnvironmentalVariable(){
 Write-host "Set environmental variable" $Path -ForegroundColor Green
-[Environment]::SetEnvironmentVariable("PATH", $env:Path + ";C:\Program Files\apache-jmeter-4.0\bin\;C:\Program Files\Java\jdk1.8.0_161\bin\;", 'Machine')
-[Environment]::SetEnvironmentVariable("JMETER_HOME", "C:\Program Files\apache-jmeter-4.0", 'Machine')
+[Environment]::SetEnvironmentVariable("PATH", $env:Path + ";C:\apache-jmeter-4.0\bin\;C:\Program Files\Java\jdk1.8.0_161\bin\;", 'Machine')
+[Environment]::SetEnvironmentVariable("JMETER_HOME", "C:\apache-jmeter-4.0", 'Machine')
 [Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Java\jdk1.8.0_161", 'Machine')
 
-[Environment]::SetEnvironmentVariable("PATH", $env:Path + ";C:\Program Files\apache-jmeter-4.0\bin\;C:\Program Files\Java\jdk1.8.0_161\bin\;", 'User')
-[Environment]::SetEnvironmentVariable("JMETER_HOME", "C:\Program Files\apache-jmeter-4.0", 'User')
+[Environment]::SetEnvironmentVariable("PATH", $env:Path + ";C:\apache-jmeter-4.0\bin\;C:\Program Files\Java\jdk1.8.0_161\bin\;", 'User')
+[Environment]::SetEnvironmentVariable("JMETER_HOME", "C:\apache-jmeter-4.0", 'User')
 [Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Java\jdk1.8.0_161", 'User')
 }
 
@@ -60,6 +60,9 @@ $JMeterVersion=getProperty("JMeterVersion")
 $destinationPath=getProperty("DestinationPath")
 $JMeterZipFile="$JMeterSetupPath$JMeterVersion"+".zip"
 $JMeterZipFile=$JMeterZipFile.Replace('"','')
+
+echo $destinationPath
+echo $JMeterZipFile
 
 $JavaSetupPath=getProperty("JavaSetupPath")
 $JavaSetupFile=getProperty("JavaSetupFile")
