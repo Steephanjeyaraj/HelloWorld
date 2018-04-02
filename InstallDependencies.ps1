@@ -73,7 +73,7 @@ $JMeterPath=$JMeterPath.Replace('"','')
 
 $Source=getProperty("Source")
 echo $Source
-$Username = "ptcoeadmin"
+$Username = "pttest0001\ptcoeadmin"
 $Password = "Pa55w0rd!"
 
 $JavaSetupPath=getProperty("JavaSetupPath")
