@@ -80,7 +80,7 @@ $JavaSetupPath=getProperty("JavaSetupPath")
 $JavaSetupFile=getProperty("JavaSetupFile")
 $SourceFile = "\\10.1.0.4\c$\Setup\Java\Java_V8u161\"+"$JavaSetupFile"
 $SourceFile = $SourceFile.Replace('"','')
-$DestinationFile   = "c:\Users\ptadmin\Downloads\"+"$JavaSetupFile"
+$DestinationFile   = "c:\"+"$JavaSetupFile"
 $DestinationFile=$DestinationFile.Replace('"','')
 
 
@@ -88,7 +88,7 @@ $DestinationFile=$DestinationFile.Replace('"','')
 downloadFile("")
 unzip("")
 setFireWallRule("")
-copySetupFiles("")
+#copySetupFiles("")
 installJava("")
 setEnvironmentalVariable("")
 disableFireWall("")
