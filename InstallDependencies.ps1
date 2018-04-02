@@ -80,7 +80,7 @@ $JavaSetupPath=getProperty("JavaSetupPath")
 $JavaSetupFile=getProperty("JavaSetupFile")
 $SourceFile = "\\"+"$Source"+"\c$\Users"+"$JavaSetupPath$JavaSetupFile"
 $SourceFile = $SourceFile.Replace('"','')
-$DestinationFile   = "c:\Users\ptadmin\Downloads\"+"$JavaSetupFile"
+$DestinationFile   = "Z:\Setup\Java\Java_V8u161\"+"$JavaSetupFile"
 $DestinationFile=$DestinationFile.Replace('"','')
 
 
