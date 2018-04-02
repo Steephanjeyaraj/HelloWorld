@@ -27,8 +27,7 @@ function unzip(){
 
 function setEnvironmentalVariable(){
 Write-host "Set environmental variable" $Path -ForegroundColor Green
-[Environment]::SetEnvironmentVariable("PATH", $env:Path + ";C:\Users\ptadmin\apache-jmeter-4.0\bin\", 'Machine')
-[Environment]::SetEnvironmentVariable("PATH", $env:Path + ";C:\Program Files\Java\jdk1.8.0_161\bin\;", 'Machine')
+[Environment]::SetEnvironmentVariable("PATH", $env:Path + ";C:\Users\ptadmin\apache-jmeter-4.0\bin\;C:\Program Files\Java\jdk1.8.0_161\bin\;", 'Machine')
 [Environment]::SetEnvironmentVariable("JMETER_HOME", "C:\Users\ptadmin\apache-jmeter-4.0", 'Machine')
 [Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Java\jdk1.8.0_161", 'Machine')
 }
