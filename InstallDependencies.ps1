@@ -22,7 +22,7 @@ Write-Host "Downloading" $Path -ForegroundColor Green
 function unzip(){
  #[System.IO.Compression.ZipFile]::ExtractToDirectory($JMeterZipFile,$destinationPath)
  Add-Type -A 'System.IO.Compression.FileSystem'; 
-[IO.Compression.ZipFile]::ExtractToDirectory($JMeterZipFile, "C:\Program Files");
+[IO.Compression.ZipFile]::ExtractToDirectory($JMeterZipFile,$destinationPath);
 }
 
 function setEnvironmentalVariable(){
@@ -36,24 +36,12 @@ Write-host "Set environmental variable" $Path -ForegroundColor Green
 [Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Java\jdk1.8.0_161", 'User')
 }
 
-function copySetupFiles(){
-Write-Host "Copying Setup files" $Path -ForegroundColor Green 
-$WebClient1= New-Object System.Net.WebClient
-$WebClient1.Credentials = New-Object System.Net.NetworkCredential($Username, $Password)
-$WebClient1.DownloadFile($SourceFile,$DestinationFile)
-}
 
 
 function installJava(){
 
 Write-Host "Java Installtion" $Path -ForegroundColor Green 
-    Start-Process $DestinationFile -ArgumentList 'INSTALL_SILENT=Enable REBOOT=Disable SPONSORS=Disable' -Wait -PassThru
-}
-
-
-function installPython(){
-Write-host "Python Installation" $Path -ForegroundColor Green
-    & $DestinationFile /quiet InstallAllUsers=1 PrependPath=1 Include_test=0
+    Start-Process $JavaFile -ArgumentList 'INSTALL_SILENT=Enable REBOOT=Disable SPONSORS=Disable' -Wait -PassThru
 }
 
 function disableFireWall(){
@@ -67,22 +55,22 @@ Write-host "Set Firewall Rule" $Path -ForegroundColor Green
 }
 
 
-$JMeterSourceUrl=getProperty("JMeterSourceURL").Replace('"','')
+$JMeterSetupPath=getProperty("JMeterSetupPath").Replace('"','')
 $JMeterVersion=getProperty("JMeterVersion")
 $destinationPath=getProperty("DestinationPath")
-$JMeterZipFile="$destinationPath$JMeterVersion"+".zip"
+$JMeterZipFile="$JMeterSetupPath$JMeterVersion"+".zip"
+$JMeterZipFile=$JMeterZipFile.Replace('"','')
 
 $JavaSetupPath=getProperty("JavaSetupPath")
 $JavaSetupFile=getProperty("JavaSetupFile")
-$DestinationFile   = "c:\"+"$JavaSetupFile"
-$DestinationFile=$DestinationFile.Replace('"','')
+$JavaFile="$JavaSetupPath$JavaSetupFile"
+$JavaFile=$JavaFile.Replace('"','')
 
 
 
-downloadFile("")
+
 unzip("")
 setFireWallRule("")
-#copySetupFiles("")
 installJava("")
 setEnvironmentalVariable("")
 disableFireWall("")
