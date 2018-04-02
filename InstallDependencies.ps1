@@ -22,14 +22,18 @@ Write-Host "Downloading" $Path -ForegroundColor Green
 function unzip(){
  #[System.IO.Compression.ZipFile]::ExtractToDirectory($JMeterZipFile,$destinationPath)
  Add-Type -A 'System.IO.Compression.FileSystem'; 
-[IO.Compression.ZipFile]::ExtractToDirectory($JMeterZipFile, "C:\Users\ptadmin\");
+[IO.Compression.ZipFile]::ExtractToDirectory($JMeterZipFile, "C:\Program Files");
 }
 
 function setEnvironmentalVariable(){
 Write-host "Set environmental variable" $Path -ForegroundColor Green
-[Environment]::SetEnvironmentVariable("PATH", $env:Path + ";C:\Users\ptadmin\apache-jmeter-4.0\bin\;C:\Program Files\Java\jdk1.8.0_161\bin\;", 'Machine')
-[Environment]::SetEnvironmentVariable("JMETER_HOME", "C:\Users\ptadmin\apache-jmeter-4.0", 'Machine')
+[Environment]::SetEnvironmentVariable("PATH", $env:Path + ";C:\Program Files\apache-jmeter-4.0\bin\;C:\Program Files\Java\jdk1.8.0_161\bin\;", 'Machine')
+[Environment]::SetEnvironmentVariable("JMETER_HOME", "C:\Program Files\apache-jmeter-4.0", 'Machine')
 [Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Java\jdk1.8.0_161", 'Machine')
+
+[Environment]::SetEnvironmentVariable("PATH", $env:Path + ";C:\Program Files\apache-jmeter-4.0\bin\;C:\Program Files\Java\jdk1.8.0_161\bin\;", 'User')
+[Environment]::SetEnvironmentVariable("JMETER_HOME", "C:\Program Files\apache-jmeter-4.0", 'User')
+[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Java\jdk1.8.0_161", 'User')
 }
 
 function copySetupFiles(){
@@ -67,19 +71,9 @@ $JMeterSourceUrl=getProperty("JMeterSourceURL").Replace('"','')
 $JMeterVersion=getProperty("JMeterVersion")
 $destinationPath=getProperty("DestinationPath")
 $JMeterZipFile="$destinationPath$JMeterVersion"+".zip"
-$JMeterZipFile=$JMeterZipFile.Replace('"','')
-$JMeterPath='C:\Users\ptadmin\'+"$JMeterVersion"+"\bin\"
-$JMeterPath=$JMeterPath.Replace('"','')
-
-$Source=getProperty("Source")
-echo $Source
-$Username = "ptcoeadmin"
-$Password = $args[0]
 
 $JavaSetupPath=getProperty("JavaSetupPath")
 $JavaSetupFile=getProperty("JavaSetupFile")
-$SourceFile = "\\10.1.0.4\c$\Setup\Java\Java_V8u161\"+"$JavaSetupFile"
-$SourceFile = $SourceFile.Replace('"','')
 $DestinationFile   = "c:\"+"$JavaSetupFile"
 $DestinationFile=$DestinationFile.Replace('"','')
 
