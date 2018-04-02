@@ -78,9 +78,9 @@ $Password = $args[0]
 
 $JavaSetupPath=getProperty("JavaSetupPath")
 $JavaSetupFile=getProperty("JavaSetupFile")
-$SourceFile = "\\"+"$Source"+"\c$\Users"+"$JavaSetupPath$JavaSetupFile"
+$SourceFile = "\\10.1.0.4\c$\Setup\Java\Java_V8u161\"+"$JavaSetupFile"
 $SourceFile = $SourceFile.Replace('"','')
-$DestinationFile   = "Z:\Setup\Java\Java_V8u161\"+"$JavaSetupFile"
+$DestinationFile   = "c:\Users\ptadmin\Downloads\"+"$JavaSetupFile"
 $DestinationFile=$DestinationFile.Replace('"','')
 
 
