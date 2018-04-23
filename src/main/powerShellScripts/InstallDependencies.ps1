@@ -1,0 +1,105 @@
+param(  [string]$User
+)
+function getProperty($prop){
+$props_file = Get-Content "$PWD\Dependencies.properties"
+$props = @{}
+$props_file | % {
+    $s = $_ -split "="
+    $props.Add($s[0],$s[1])
+}
+$the_dir = $props.$prop
+return $the_dir
+}
+
+function getCreds($prop){
+$props_file = Get-Content "C:\creds.txt"
+$props = @{}
+$props_file | % {
+    $s = $_ -split "="
+    $props.Add($s[0],$s[1])
+}
+$the_dir = $props.$prop
+return $the_dir
+}
+
+function downloadFile(){
+$url="$JMeterSourceUrl$JMeterVersion"+".zip"
+$url=$url.Replace('"','')
+
+$WebClient=New-Object System.Net.WebClient
+Write-Host "Downloading" $Path -ForegroundColor Green 
+    $WebClient.DownloadFile($url,$JMeterZipFile)
+
+}
+
+function unzip(){
+ #[System.IO.Compression.ZipFile]::ExtractToDirectory($JMeterZipFile,$destinationPath)
+ Add-Type -A 'System.IO.Compression.FileSystem'; 
+[IO.Compression.ZipFile]::ExtractToDirectory($JMeterZipFile, "C:\");
+}
+
+function setEnvironmentalVariable(){
+Write-host "Set environmental variable" $Path -ForegroundColor Green
+[Environment]::SetEnvironmentVariable("PATH", $env:Path + ";C:\apache-jmeter-4.0\bin\;C:\Program Files\Java\jdk1.8.0_161\bin\;", 'Machine')
+[Environment]::SetEnvironmentVariable("JMETER_HOME", "C:\apache-jmeter-4.0", 'Machine')
+[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Java\jdk1.8.0_161", 'Machine')
+
+[Environment]::SetEnvironmentVariable("PATH", $env:Path + ";C:\apache-jmeter-4.0\bin\;C:\Program Files\Java\jdk1.8.0_161\bin\;", 'User')
+[Environment]::SetEnvironmentVariable("JMETER_HOME", "C:\apache-jmeter-4.0", 'User')
+[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Java\jdk1.8.0_161", 'User')
+}
+
+
+
+function installJava(){
+
+Write-Host "Java Installtion" $Path -ForegroundColor Green 
+    Start-Process $JavaFile -ArgumentList 'INSTALL_SILENT=Enable REBOOT=Disable SPONSORS=Disable' -Wait -PassThru
+}
+
+function disableFireWall(){
+Write-host "Disable Firewall" $Path -ForegroundColor Green
+    Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
+}
+
+function setFireWallRule(){
+Write-host "Set Firewall Rule" $Path -ForegroundColor Green
+    New-NetFirewallRule -DisplayName "Master File Sharing (SMB-In)" -Description "Allows inbound traffic from Client to Access Files" -Group "File and Printer Sharing" -Action Allow -Direction Inbound -InterfaceType Any -Profile Any -LocalAddress Any -LocalPort 445 -RemoteAddress Any -RemotePort Any -Protocol TCP  
+}
+
+function startJmeterRemote(){
+$Password=getCreds("Password")
+$User="nt authority\network service"
+Write-host $Password
+$action = New-ScheduledTaskAction -Execute 'C:\apache-jmeter-4.0\bin\jmeter-server.bat' -Argument '-Jserver_port=1099 -Jserver.rmi.ssl.disable=true'
+$time=(get-date).AddMinutes(1).ToString("HH:mm")
+$trigger= New-ScheduledTaskTrigger -Once -At $time
+$principal = New-ScheduledTaskPrincipal -UserId $User -LogonType S4U -RunLevel Highest
+Register-ScheduledTask -Action $action -Trigger $trigger -Principal $principal -TaskName "JMeterServer26" -Description "JMeterServer26" 
+}
+
+$JMeterSetupPath=getProperty("JMeterSetupPath").Replace('"','')
+$JMeterVersion=getProperty("JMeterVersion")
+$destinationPath=getProperty("DestinationPath")
+$JMeterZipFile="$JMeterSetupPath$JMeterVersion"+".zip"
+$JMeterZipFile=$JMeterZipFile.Replace('"','')
+
+echo $destinationPath
+echo $JMeterZipFile
+
+$JavaSetupPath=getProperty("JavaSetupPath")
+$JavaSetupFile=getProperty("JavaSetupFile")
+$JavaFile="$JavaSetupPath$JavaSetupFile"
+$JavaFile=$JavaFile.Replace('"','')
+
+
+
+
+unzip("")
+setFireWallRule("")
+installJava("")
+setEnvironmentalVariable("")
+disableFireWall("")
+Write-host $User 
+startJmeterRemote("")
+

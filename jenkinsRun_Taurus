@@ -1,0 +1,60 @@
+pipeline{
+  agent any 
+  environment {
+     subnetIP = "10.1.0.5"
+     jenkinsHome=""
+     slaveConfig=""
+     taurusConfigDir=""
+     taurusArtifactDir=""
+     jmeterScriptDir=""
+     jmeterReportName=""
+     subject=""
+     body=""
+     
+    }
+   stages{
+    stage('Performance Testing'){
+      steps{
+        dir('src'){
+          bat "PowerShell.exe -File \".\\main\\powerShellScripts\\updateTaurusSlaveConfig.ps1\" -subnetIP ${subnetIP}"
+        }
+        dir('src/test/taurus/configurations') {
+                script{
+                   jenkinsHome=JENKINS_HOME.replace("Program Files (x86)", "PROGRA~2")
+                   taurusConfigDir="${jenkinsHome}\\workspace\\${JOB_NAME}\\src\\test\\taurus\\configurations"
+                   taurusArtifactDir="${jenkinsHome}\\workspace\\${JOB_NAME}\\src\\test\\taurus\\logs\\jenkiks-${JOB_NAME}-${BUILD_NUMBER}"
+                   jmeterScriptDir="${jenkinsHome}\\workspace\\${JOB_NAME}\\src\\test\\jmeter\\scripts"
+                   jmeterReportName="${JOB_NAME}-${BUILD_NUMBER}-JmeterReport"
+                }
+         }
+        dir('src/test') {
+            bzt "${taurusConfigDir}\\Google.yml -o settings.artifacts-dir=${taurusArtifactDir} -o scenarios.Google.script=${jmeterScriptDir}\\Google.jmx ${taurusConfigDir}\\Slave.yml"
+        }
+      }
+    }
+    
+    stage('Report Generation'){
+        steps{
+          dir('src/test/dependencies'){
+            bat"java -jar TaurusOutputConverter.jar \"${taurusArtifactDir}\\kpi.jtl\" \"${taurusArtifactDir}\\output.jtl\""
+          }
+          dir('src/test/taurus/logs'){
+            bat "md ${taurusArtifactDir}\\${jmeterReportName}"
+            bat "jmeter.bat -g ${taurusArtifactDir}\\output.jtl -o ${taurusArtifactDir}\\${jmeterReportName}"
+          }
+          dir('src/main/powerShellScripts'){
+            bat "PowerShell.exe -File compressReport.ps1 ${taurusArtifactDir} ${jmeterReportName}"
+            script{
+              subject="Jenkins-Jmeter-Report Job:${JOB_NAME} Build:${BUILD_NUMBER}"
+              body="Hi , This is a system generated Email. Do not reply.  Thanks"
+            }
+             withCredentials([usernamePassword(credentialsId: 'MNS_MAIL', passwordVariable: 'Password', usernameVariable: 'Email')]){
+                 bat "PowerShell.exe -File emailReport.ps1 -User ${Email} -Password ${Password} -To \"${recipients}\" -Subject \"${subject}\" -Body \"${body}\" -Dir ${taurusArtifactDir} -File ${jmeterReportName}"
+             }
+
+          }
+        }
+    }
+    
+ }
+}

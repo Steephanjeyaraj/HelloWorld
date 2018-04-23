@@ -42,7 +42,6 @@ pipeline{
           withCredentials([string(credentialsId: 'AZURE_CLIENT_ID', variable: 'AZURE_CLIENT_ID'), string(credentialsId: 'AZURE_CLIENT_SECRET', variable: 'AZURE_CLIENT_SECRET'), string(credentialsId: 'AZURE_SUBSCRIPTION_ID', variable: 'AZURE_SUBSCRIPTION_ID'), string(credentialsId: 'AZURE_TENANT_ID', variable: 'AZURE_TENANT_ID'), string(credentialsId: 'SRVR_PASSWORD', variable: 'SRVR_PASSWORD')]) {
             bat 'terraform apply -var subscription_id=%AZURE_SUBSCRIPTION_ID% -var client_id=%AZURE_CLIENT_ID% -var client_secret=%AZURE_CLIENT_SECRET% -var tenant_id=%AZURE_TENANT_ID% -var srvr_admin_password=%SRVR_PASSWORD% -auto-approve'
           }
-          sleep time: 1, unit: 'MINUTES'
         }
      }
     }
@@ -88,14 +87,5 @@ pipeline{
           }
         }
     }
-    stage('Destroy Server'){
-      steps{
-        dir('src/main/terraform/serverBuild') {
-          withCredentials([string(credentialsId: 'AZURE_CLIENT_ID', variable: 'AZURE_CLIENT_ID'), string(credentialsId: 'AZURE_CLIENT_SECRET', variable: 'AZURE_CLIENT_SECRET'), string(credentialsId: 'AZURE_SUBSCRIPTION_ID', variable: 'AZURE_SUBSCRIPTION_ID'), string(credentialsId: 'AZURE_TENANT_ID', variable: 'AZURE_TENANT_ID'), string(credentialsId: 'SRVR_PASSWORD', variable: 'SRVR_PASSWORD')]) {
-            bat 'terraform destroy -var subscription_id=%AZURE_SUBSCRIPTION_ID% -var client_id=%AZURE_CLIENT_ID% -var client_secret=%AZURE_CLIENT_SECRET% -var tenant_id=%AZURE_TENANT_ID% -var srvr_admin_password=%SRVR_PASSWORD% -force'
-          }  
-        }
-      }
-    } 
  }
 }

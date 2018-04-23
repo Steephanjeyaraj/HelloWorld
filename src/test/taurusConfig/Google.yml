@@ -1,0 +1,49 @@
+execution:
+- concurrency: 10
+  iterations : 10
+- distributed: 
+  - 10.1.0.5
+  scenario: Google
+  
+scenarios:
+  Google:
+    script: Google.jmx
+
+reporting:
+- module: final-stats
+
+modules:
+  jmeter:
+    path: C:\Program Files\apache-jmeter-4.0\bin\jmeter.bat
+    properties:
+        log_level: ERROR
+  console:
+    disable: true
+  xml-jtl-flags:
+	  xml: true
+      fieldNames: true
+      time: true
+      timestamp: true
+      latency: true
+      success: true
+      label: true
+      code: true
+      message: true
+      threadName: true
+      dataType: true
+      encoding: true
+      assertions: true
+      subresults: true
+      responseData: false
+      samplerData: false
+      responseHeaders: true
+      requestHeaders: true
+      responseDataOnError: true
+      saveAssertionResultsFailureMessage: true
+      bytes: true
+      threadCounts: true
+      url: true   
+settings:
+  default-executor: jmeter
+
+
